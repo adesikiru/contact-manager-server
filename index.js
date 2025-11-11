@@ -9,34 +9,34 @@ import { Router } from './routes/routes.js';
 const app = express();
 app.use(express.json());
 
+// Allowed origins for development and production
 const allowedOrigins = [
-  "http://localhost:5173",
-  "https://contact-manager-client-rose.vercel.app",
+  "http://localhost:5173", // dev client
+  "https://contact-manager-client-rose.vercel.app", // deployed client
 ];
 
-
-
+// CORS middleware
 app.use(
   cors({
     origin: function (origin, callback) {
-      // allow requests with no origin like Postman or server-to-server
+      // Allow requests like Postman that have no origin
       if (!origin) return callback(null, true);
 
       if (allowedOrigins.indexOf(origin) === -1) {
-        const msg = `The CORS policy for this site does not allow access from the specified Origin.`;
+        const msg = `CORS policy does not allow access from this origin: ${origin}`;
         return callback(new Error(msg), false);
       }
       return callback(null, true);
     },
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    credentials: true,
+    credentials: true, // Allow cookies if needed
   })
 );
 
+// Handle preflight OPTIONS requests globally
+app.options("*", cors({ origin: allowedOrigins, credentials: true }));
 
-app.options('*', cors()); // optional preflight support
-
+// Your API routes
 app.use('/contactmsyt', Router);
 
 const PORT = process.env.PORT || 3000;
