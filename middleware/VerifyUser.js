@@ -1,7 +1,7 @@
 // server/middleware/VerifyUser.js middleware file verifies JWT tokens and attaches user info to the request object. 
 
 import jwt from "jsonwebtoken";
-import { UserModel } from "../models/user.js";
+import { UserModel } from "../models/User.js";
 import dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 

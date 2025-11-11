@@ -6,7 +6,11 @@ import { Router } from './routes/routes.js'
 
 const app = express()
 app.use(express.json())
-app.use(cors())
+app.use(cors({
+  origin: ["https://contact-manager-client-rose.vercel.app"],
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
+}))
 app.use('/contactmsyt', Router)
 dotenv.config();
 const PORT = process.env.PORT || 3000
