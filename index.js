@@ -1,22 +1,30 @@
-import express from 'express'
-import dotenv from 'dotenv'
-import './config/db.js'
-import cors from 'cors'
-import { Router } from './routes/routes.js'
-
-const app = express()
-app.use(express.json())
-app.use(cors({
-  origin: ["https://contact-manager-client-rose.vercel.app"],
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  credentials: true
-}))
-app.use('/contactmsyt', Router)
+import dotenv from 'dotenv';
 dotenv.config();
-const PORT = process.env.PORT || 3000
 
+import express from 'express';
+import './config/db.js';
+import cors from 'cors';
+import { Router } from './routes/routes.js';
+
+const app = express();
+app.use(express.json());
+
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "https://contact-manager-client-rose.vercel.app",
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
+
+app.options('*', cors()); // optional preflight support
+
+app.use('/contactmsyt', Router);
+
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Serv
-    er is running on http://localhost:${PORT}
-    `)
-}) 
+  console.log(`✅ Server running on http://localhost:${PORT}`);
+});
